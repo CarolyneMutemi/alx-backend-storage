@@ -21,4 +21,13 @@ if __name__ == "__main__":
     status_check = nginx.count_documents({"method": "GET", "path": "/status"})
     print(f"{status_check} status check")
 
-    ip_list = nginx.distinct("ip")
+    ip_query = [
+        {"$group": {"_id": "$ip", "count": {"$count": {}}}},
+        {"$sort": {"count": -1, "_id": -1}},
+        {"$limit": 10}
+    ]
+
+    print("IPs:")
+    result_stats = nginx.aggregate(ip_query)
+    for stat in result_stats:
+        print(f'\t{stat.get("_id")}: {stat.get("count")}')

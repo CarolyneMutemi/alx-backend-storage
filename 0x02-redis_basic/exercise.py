@@ -13,12 +13,12 @@ def count_calls(func):
     Counts how many time the function is called.
     """
     @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(self, *args, **kwargs):
         """
         Wrapper function.
         """
-        args[0]._redis.incr(func.__qualname__)
-        return func(*args, **kwargs)
+        self._redis.incr(func.__qualname__)
+        return func(self, *args, **kwargs)
     return wrapper
 
 
@@ -42,6 +42,7 @@ class Cache:
 
         return key
 
+    @count_calls
     def get(self, key, fn=None):
         """
         Takes a key string argument and an optional Callable argument named fn.
@@ -53,12 +54,14 @@ class Cache:
             data = fn(data)
         return data
 
+    @count_calls
     def get_str(self, data):
         """
         Converts to string.
         """
         str(data)
 
+    @count_calls
     def get_int(self, data):
         """
         Converts to integer.

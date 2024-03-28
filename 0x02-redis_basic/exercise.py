@@ -8,17 +8,17 @@ from typing import Union
 from functools import wraps
 
 
-def count_calls(func):
+def count_calls(method):
     """
     Counts how many time the function is called.
     """
-    @wraps(func)
+    @wraps(method)
     def wrapper(self, *args, **kwargs):
         """
         Wrapper function.
         """
-        self._redis.incr(func.__qualname__)
-        return func(self, *args, **kwargs)
+        self._redis.incr(method.__qualname__)
+        return method(self, *args, **kwargs)
     return wrapper
 
 
@@ -42,7 +42,6 @@ class Cache:
 
         return key
 
-    @count_calls
     def get(self, key, fn=None):
         """
         Takes a key string argument and an optional Callable argument named fn.
@@ -54,14 +53,12 @@ class Cache:
             data = fn(data)
         return data
 
-    @count_calls
     def get_str(self, data):
         """
         Converts to string.
         """
         str(data)
 
-    @count_calls
     def get_int(self, data):
         """
         Converts to integer.

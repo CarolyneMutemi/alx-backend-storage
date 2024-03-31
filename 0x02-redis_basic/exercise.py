@@ -23,18 +23,34 @@ def count_calls(method: Callable[P, T]) -> Callable[P, T]:
         return method(self, *args, **kwargs)
     return wrapper
 
-def call_history(method):
+
+def call_history(method: Callable[P, T]) -> Callable[P, T]:
     """
     Stores the history of inputs and outputs for a particular function.
     """
     @wraps(method)
     def wrapper(self, *args, **kwargs):
-        #for arg in args:
         self._redis.rpush(f"{method.__qualname__}:inputs", str(args))
         output = method(self, *args, **kwargs)
         self._redis.rpush(f"{method.__qualname__}:outputs", output)
         return output
     return wrapper
+
+
+def replay(func):
+    """
+    Displays the history calls of a particular function.
+    """
+    number_of_calls = (func.__self__._redis.get(func.__qualname__)
+                       ).decode('utf-8')
+    print(f"{func.__qualname__} was called {number_of_calls} times:")
+    inputs = func.__self__._redis.lrange(f"{func.__qualname__}:inputs", 0, -1)
+    outputs = func.__self__._redis.lrange(f"{func.__qualname__}:outputs",
+                                          0, -1)
+    for (value, output) in zip(inputs, outputs):
+        value = value.decode('utf-8')
+        output = output.decode('utf-8')
+        print(f"{func.__qualname__}(*{value}) -> {output}")
 
 
 class Cache:

@@ -9,16 +9,12 @@ from functools import wraps
 import redis
 
 
-T = TypeVar('T')
-P = ParamSpec('P')
-
-
-def count_calls(method: Callable[P, T]) -> Callable[P, T]:
+def count_calls(method):
     """
     Counts how many time the function is called.
     """
     @wraps(method)
-    def wrapper(*args: P.args, **kwargs: P.kwargs):
+    def wrapper(*args, **kwargs):
         """
         Wrapper function.
         """

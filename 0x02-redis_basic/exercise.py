@@ -2,13 +2,14 @@
 """
 Has a Cache class.
 """
-import redis
 import uuid
-from typing import Union
+from typing import Callable, Union
 from functools import wraps
+import redis
 
 
-def count_calls(method):
+def count_calls(method: Callable[..., any]
+                ) -> Callable[..., Callable[..., any]]:
     """
     Counts how many time the function is called.
     """

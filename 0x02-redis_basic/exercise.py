@@ -8,8 +8,7 @@ from functools import wraps
 import redis
 
 
-def count_calls(method: Callable[..., any]
-                ) -> Callable[..., Callable[..., any]]:
+def count_calls(method: Callable[..., any]):
     """
     Counts how many time the function is called.
     """

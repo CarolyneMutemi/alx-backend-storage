@@ -3,13 +3,12 @@
 Has a Cache class.
 """
 import uuid
-from collections.abc import Callable
-from typing import Union, ParamSpec, TypeVar
+from typing import Union, Callable
 from functools import wraps
 import redis
 
 
-def count_calls(method):
+def count_calls(method: Callable[..., any]):
     """
     Counts how many time the function is called.
     """

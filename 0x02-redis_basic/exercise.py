@@ -10,7 +10,7 @@ P = ParamSpec('P')
 T = TypeVar('T')
 
 
-def count_calls(method: Callable[P, T]) -> Callable[P, T]:
+def count_calls(method):
     """
     Counts how many time the function is called.
     """
@@ -24,7 +24,7 @@ def count_calls(method: Callable[P, T]) -> Callable[P, T]:
     return wrapper
 
 
-def call_history(method: Callable[P, T]) -> Callable[P, T]:
+def call_history(method):
     """
     Stores the history of inputs and outputs for a particular function.
     """

@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """
 Implenting an expiring web cache and tracker.
 """
@@ -29,5 +29,5 @@ def get_page(url: str) -> str:
     """
     Get's html content of the given url.
     """
-    content = requests.get(url).text
+    content = requests.get(url, timeout=5).text
     return content

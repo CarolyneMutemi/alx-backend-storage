@@ -17,7 +17,7 @@ def count_calls(method: Callable[P, T]) -> Callable[P, T]:
     Counts how many time the function is called.
     """
     @wraps(method)
-    def wrapper(self: T, *args: P.args, **kwargs: P.kwargs):
+    def wrapper(self: T, *args: P.args, **kwargs: P.kwargs) -> T:
         """
         Wrapper function.
         """

@@ -39,6 +39,6 @@ def get_page(url: str) -> str:
     else:
         page = page.decode('utf-8')
     connection.incr(f"count:{url}")
-    print(connection.get(f"count:{url}"))
-    print(page)
+    # print(connection.get(f"count:{url}"))
+    # print(page)
     return page

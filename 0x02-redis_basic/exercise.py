@@ -3,21 +3,17 @@
 Has a Cache class.
 """
 import uuid
-from collections.abc import Callable
-from typing import Union, ParamSpec, TypeVar
+from typing import Union, Callable
 from functools import wraps
 import redis
 
-T = TypeVar('T')
-P = ParamSpec('P')
 
-
-def count_calls(method: Callable[P, T]) -> Callable[P, T]:
+def count_calls(method):
     """
     Counts how many time the function is called.
     """
     @wraps(method)
-    def wrapper(self: T, *args: P.args, **kwargs: P.kwargs) -> T:
+    def wrapper(self, *args, **kwargs):
         """
         Wrapper function.
         """

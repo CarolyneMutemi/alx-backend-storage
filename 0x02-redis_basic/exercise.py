@@ -3,11 +3,9 @@
 Has a Cache class.
 """
 import uuid
-from typing import Union, Callable, ParamSpec, TypeVar
+from typing import Union
 from functools import wraps
 import redis
-P = ParamSpec('P')
-T = TypeVar('T')
 
 
 def count_calls(method):

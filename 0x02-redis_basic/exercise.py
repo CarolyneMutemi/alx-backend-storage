@@ -13,12 +13,12 @@ def count_calls(method: Callable[..., any]):
     Counts how many time the function is called.
     """
     @wraps(method)
-    def wrapper(*args, **kwargs):
+    def wrapper(self, *args, **kwargs):
         """
         Wrapper function.
         """
-        args[0]._redis.incr(method.__qualname__)
-        return method(*args, **kwargs)
+        self._redis.incr(method.__qualname__)
+        return method(self, *args, **kwargs)
     return wrapper
 
 

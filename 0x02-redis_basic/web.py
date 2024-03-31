@@ -21,6 +21,8 @@ def count_requests(method):
         if not page:
             page = method(url)
             connection.setex("page", 10, page)
+        else:
+            page = page.decode('utf-8')
         connection.incr(f"count:{url}")
         return page
     return wrapper

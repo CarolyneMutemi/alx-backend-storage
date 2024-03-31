@@ -19,7 +19,6 @@ def count_requests(method):
         connection = redis.Redis()
         connection.incr(f"count:{url}")
         connection.expire(f"count:{url}", 10)
-        print(connection.get(f"count:{url}"), connection.ttl(f"count:{url}"))
         return method(url)
     return wrapper
 

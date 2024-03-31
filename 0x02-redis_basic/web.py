@@ -17,9 +17,12 @@ def count_requests(method):
         Wrapper function.
         """
         connection = redis.Redis()
+        page = connection.get("page")
+        if not page:
+            page = method(url)
+            connection.setex("page", 10, page)
         connection.incr(f"count:{url}")
-        connection.expire(f"count:{url}", 10)
-        return method(url)
+        return page
     return wrapper
 
 
